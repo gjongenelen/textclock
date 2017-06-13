@@ -31,7 +31,7 @@ function Web.handleConnection(conn, payload)
 
     conn:send('<form action="" method="POST">\n')
     conn:send('Epoch:<br><input type="text" readonly name="epoch" id="epoch"><br>\n')
-    conn:send('Timezone:<br><input type="text" readonly name="timezone" id="timezone"><br><input type="submit" name="submit" value="Submit"></form>\n')
+    conn:send('<input type="submit" name="submit" value="Submit"></form>\n')
     conn:send('<script type="text/javascript"> function updateTime() { var d = new Date(); document.getElementById(\'epoch\').value = Math.round(d.getTime() / 1000)+(d.getTimezoneOffset() - (d.getTimezoneOffset() * 2))*60; \n')
     conn:send(' }; setInterval(updateTime, 1000); </script></body></html>\n')
 

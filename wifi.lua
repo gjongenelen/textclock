@@ -5,9 +5,9 @@ Wifi = {
         pwd = "ESP-"..node.chipid()
     },
     dhcpConfig = {
-        ip = "192.168.111.1",
+        ip = "192.168.4.1",
         netmask = "255.255.255.0",
-        gateway = "192.168.111.1"
+        gateway = "192.168.4.1"
     }
 }
 
@@ -16,4 +16,5 @@ function Wifi.startAp()
     wifi.ap.config(Wifi.apConfig)
     wifi.ap.setip(Wifi.dhcpConfig)
     print("[INFO] AP emitting")
+
 end
