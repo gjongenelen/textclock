@@ -1,3 +1,5 @@
+print("Available heap: "..node.heap())
+
 local compileAndRemoveIfNeeded = function(f)
     if file.open(f) then
         file.close()
@@ -15,27 +17,30 @@ local serverFiles = {
     'rtc.lua',
     'web.lua',
     'wifi.lua',
+    'ldr.lua'
 }
 for _, f in ipairs(serverFiles) do compileAndRemoveIfNeeded(f) end
 
 compileAndRemoveIfNeeded = nil
 serverFiles = nil
-collectgarbage()
 
+print("Available heap: "..node.heap())
 
+print("Available heap: "..node.heap())
 dofile("rtc.lc")
 dofile("wifi.lc")
 dofile("web.lc")
+dofile("ldr.lc")
 dofile("clock.lc")
 
 
 Rtc.init()
+Ldr.startPolling()
 Clock.init()
 Wifi.startAp()
 
-
-collectgarbage()
-
+print("Available heap: "..node.heap())
+print("Available heap: "..node.heap())
 
 Web.startServer(Web.handleConnection)
 

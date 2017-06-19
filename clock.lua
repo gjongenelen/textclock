@@ -1,6 +1,6 @@
 dofile("definitions.lc")
 
-Clock = { buffer = nil }
+Clock = { buffer = nil, showMinutes = False }
 
 function Clock.init()
     ws2812.init()
@@ -53,6 +53,7 @@ almId = 2
 function Clock.setClockTimeout()
     gpio.mode(1,gpio.INT)
     gpio.trig(1,'down',function(level)
+        print("Available heap: "..node.heap())
         if (level == 0) then
             Clock.repaint(function()
                 Rtc.reloadAlarms()

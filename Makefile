@@ -17,6 +17,7 @@ LUA_FILES := \
    ds3231.lua \
    rtc.lua \
    web.lua \
+   ldr.lua \
    wifi.lua \
 
 # Print usage
