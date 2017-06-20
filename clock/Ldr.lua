@@ -19,9 +19,8 @@ function Ldr.startPolling()
                     Ldr.percentage = maxLevel
                 end
 
-                Clock.repaint(function()
-                    print("[INFO] Repainted with new level (".. Ldr.percentage ..")")
-                end)
+                print("[INFO] Repainting with new level (".. Ldr.percentage .."%)")
+                Clock.repaint()
             end
         end
     end)

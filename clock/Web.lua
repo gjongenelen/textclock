@@ -1,4 +1,5 @@
 local Web = {
+    safeToUnload = false,
     minutes = false
 }
 

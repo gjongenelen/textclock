@@ -28,5 +28,10 @@ print("[INFO] Heap: " .. node.heap())
 tmr.alarm(4, 50, 1, function()
     if package.loaded["Definitions"] ~= nill and require("Definitions").safeToUnload then
         package.loaded["Definitions"] = nil
+        collectgarbage()
+    end
+    if package.loaded["Web"] ~= nill and require("Web").safeToUnload then
+        package.loaded["Web"] = nil
+        collectgarbage()
     end
 end)

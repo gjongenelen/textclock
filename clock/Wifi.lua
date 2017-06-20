@@ -1,4 +1,5 @@
 local Wifi = {
+    safeToUnload = false,
     serving = false
 }
 
@@ -31,12 +32,14 @@ function startWebserverOnDemand()
         if count > 0 then
             if not Wifi.serving then
                 Wifi.serving = true
-                Web.startServer()
+                require("Web").startServer()
             end
         else
             if Wifi.serving then
-                Web.stopServer()
+                require("Web").stopServer()
                 Wifi.serving = false
+                require("Web").safeToUnload = true
+
                 tmr.alarm(2, 1000, 0, function()
                     Clock.repaint(function()
                         print("[INFO] Updated settings")
