@@ -10,13 +10,13 @@ end
 
 function Clock.createBuffer()
     buffer = ws2812.newBuffer(116, 3)
+    buffer:fill(0, 0, 0)
 end
 
 function Clock.signalFail()
     print("[INFO] Marking signalFail")
     Clock.createBuffer()
-    buffer:fill(0, 0, 0)
-    buffer:set(Definitions.Words["wifi"], 0, 255, 0)
+    buffer:set(116, 0, 255, 0)
     ws2812.write(buffer)
 end
 
@@ -29,10 +29,7 @@ end
 
 function printTime(minute, hour)
     print("[INFO] Repainting (" .. hour .. ":" .. minute .. ")")
-    print("[INFO] Heap: " .. node.heap())
-    buffer:fill(0, 0, 0)
-
-    print("[INFO] Heap: " .. node.heap())
+    Clock.createBuffer()
 
     displayWord("het")
     displayWord("is")

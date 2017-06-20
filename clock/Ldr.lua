@@ -7,22 +7,22 @@ local minLevel = 10
 local maxLevel = 100
 
 function Ldr.startPolling()
-    tmr.alarm(0, 100, 1, function()
+    tmr.alarm(1, 100, 1, function()
+        if not Wifi.serving then
+            local value = adc.read(0)
+            if math.abs(level - value) > 30 then
+                level = value
+                Ldr.percentage = value / 9
+                if Ldr.percentage < minLevel then
+                    Ldr.percentage = minLevel
+                elseif Ldr.percentage > maxLevel then
+                    Ldr.percentage = maxLevel
+                end
 
-        local value = adc.read(0)
-
-        if math.abs(level - value) > 30 then
-            level = value
-            Ldr.percentage = value / 9
-            if Ldr.percentage < minLevel then
-                Ldr.percentage = minLevel
-            elseif Ldr.percentage > maxLevel then
-                Ldr.percentage = maxLevel
+                Clock.repaint(function()
+                    print("[INFO] Repainted with new level (".. Ldr.percentage ..")")
+                end)
             end
-
-            Clock.repaint(function()
-                print("[INFO] Repainted with new level (" .. Ldr.percentage .. ")")
-            end)
         end
     end)
 end

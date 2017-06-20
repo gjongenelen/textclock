@@ -19,6 +19,7 @@ LUA_FILES := \
    Web.lua \
    Ldr.lua \
    Settings.lua \
+   start.lua \
    Wifi.lua \
    web.html \
 

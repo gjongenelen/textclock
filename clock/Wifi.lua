@@ -6,7 +6,7 @@ local Web = require "Web"
 
 local mode = wifi.SOFTAP
 local apConfig = {
-    ssid = "Clock-"..node.chipid(),
+    ssid = "Clock-" .. node.chipid(),
     pwd = "itistime"
 }
 local dhcpConfig = {
@@ -25,15 +25,24 @@ function Wifi.startAp()
 end
 
 function startWebserverOnDemand()
-    tmr.alarm(3, 1000, 1, function()
+    tmr.alarm(0, 100, 1, function()
         local count = 0
         for _ in pairs(wifi.ap.getclient()) do count = count + 1 end
         if count > 0 then
-            Wifi.serving = true
-            Web.startServer()
+            if not Wifi.serving then
+                Wifi.serving = true
+                Web.startServer()
+            end
         else
-            Web.stopServer()
-            Wifi.serving = false
+            if Wifi.serving then
+                Web.stopServer()
+                Wifi.serving = false
+                tmr.alarm(2, 1000, 0, function()
+                    Clock.repaint(function()
+                        print("[INFO] Updated settings")
+                    end)
+                end)
+            end
         end
     end)
 end

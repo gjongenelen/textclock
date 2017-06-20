@@ -10,12 +10,13 @@ end
 
 local serverFiles = {
     'Clock.lua',
-    'Debug.lua',
     'Definitions.lua',
     'Ds3231.lua',
-    'Ldr.lua',
     'Rtc.lua',
-    'Settings.lua'
+    'Web.lua',
+    'Wifi.lua',
+    'Settings.lua',
+    'Ldr.lua'
 }
 for _, f in ipairs(serverFiles) do compileAndRemoveIfNeeded(f) end
 
@@ -25,19 +26,9 @@ serverFiles = nil
 collectgarbage()
 
 ---------------------
-Debug = require "Debug"
 
-Debug.heap()
+function startup()
+    dofile('start.lua')
+end
 
-Settings = require "Settings"
-
-Ldr = require "Ldr"
-Ldr.startPolling()
-
-Clock = require "Clock"
-Clock.init()
-
-Rtc = require "Rtc"
-Rtc.registerAlarm(function()
-    Clock.repaint()
-end)
+tmr.alarm(0,5000,0,startup)
