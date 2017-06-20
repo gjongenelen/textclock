@@ -12,13 +12,15 @@ NODEMCU-COMMAND-R=$(NODEMCU-UPLOADER) -b $(SPEED) --start_baud $(SPEED) -p $(POR
 
 LUA_FILES := \
    init.lua \
-   clock.lua \
-   definitions.lua \
-   ds3231.lua \
-   rtc.lua \
-   web.lua \
-   ldr.lua \
-   wifi.lua \
+   Clock.lua \
+   Definitions.lua \
+   Ds3231.lua \
+   Rtc.lua \
+   Web.lua \
+   Ldr.lua \
+   Settings.lua \
+   Wifi.lua \
+   web.html \
 
 # Print usage
 usage:

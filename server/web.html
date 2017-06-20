@@ -26,7 +26,7 @@
             http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             http.onreadystatechange = function() {
                 if(http.readyState == 4 && http.status == 200) {
-                    alert(http.responseText);
+                    //alert(http.responseText);
                 }
             }
             http.send("minutes="+(document.getElementById("minuten").checked ? "1" : "0"));
@@ -44,11 +44,11 @@
             http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             http.onreadystatechange = function() {
                 if(http.readyState == 4 && http.status == 200) {
-                    alert(http.responseText);
+                    //alert(http.responseText);
                 }
             }
             http.send("epoch="+epoch);
-        }, 3000);
+        }, 10000);
     </script>
 </body>
 </html>
