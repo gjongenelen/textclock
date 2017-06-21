@@ -1,3 +1,5 @@
+node.setcpufreq(node.CPU160MHZ)
+
 local compileAndRemoveIfNeeded = function(f)
     if file.open(f) then
         file.close()
@@ -31,4 +33,4 @@ function startup()
     dofile('start.lua')
 end
 
-tmr.alarm(0,5000,0,startup)
+tmr.alarm(0,1000,0,startup)

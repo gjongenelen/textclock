@@ -28,43 +28,84 @@ end
 
 function handleConnection(conn, payload)
 
+    conn:send('HTTP/1.1 200 OK\n\n')
+
     local epoch = {
         string.find(payload, "epoch=")
     }
     local minutes = {
         string.find(payload, "minutes=")
     }
+    local red = {
+        string.find(payload, "red=")
+    }
+    local green = {
+        string.find(payload, "green=")
+    }
+    local blue = {
+        string.find(payload, "blue=")
+    }
     if epoch[2] ~= nil then
         local epoch = string.sub(payload, epoch[2] + 1, #payload)
         local tm = rtctime.epoch2cal(string.sub(epoch, 1, 10))
         Rtc.setTime(tm['sec'], tm['min'], tm['hour'], 1, tm['day'], tm['mon'], string.sub(tm['year'], 3, 4));
-        print("[INFO] Set time ("..epoch..")")
+        print("[INFO] Set time (" .. epoch .. ")")
+        conn:close()
+        return
+    end
+    if red[2] ~= nil then
+        local red = string.sub(payload, red[2] + 1, #payload)
+        Settings.set("red", red)
+        print("[INFO] Set red (" .. red .. ")")
+        conn:close()
+        Clock.signalFail()
+        return
+    end
+    if green[2] ~= nil then
+        local green = string.sub(payload, green[2] + 1, #payload)
+        Settings.set("green", green)
+        print("[INFO] Set green (" .. green .. ")")
+        conn:close()
+        Clock.signalFail()
+        return
+    end
+    if blue[2] ~= nil then
+        local blue = string.sub(payload, blue[2] + 1, #payload)
+        Settings.set("blue", blue)
+        print("[INFO] Set blue (" .. blue .. ")")
+        conn:close()
+        Clock.signalFail()
+        return
     end
     if minutes[2] ~= nil then
         local minutes = string.sub(payload, minutes[2] + 1, #payload)
-        if minutes == "0" then
-            Settings.set("minutes", false)
+            Settings.set("minutes", minutes)
+        print("[INFO] Set showMinutes (" .. minutes .. ")")
+        conn:close()
+        return
+    end
+
+
+    response = {}
+
+    file.open("web.html", "r")
+    for counter = 1, 95 do
+        response[#response + 1] = file.readline()
+    end
+    file.close()
+    collectgarbage()
+
+    local function send(socket)
+        if #response > 0 then
+            socket:send(table.remove(response, 1))
         else
-            Settings.set("minutes", true)
+            socket:close()
+            response = nil
         end
-        print("[INFO] Set showMinutes ("..minutes..")")
     end
 
-    conn:send('HTTP/1.1 200 OK\n\n')
-
-    if epoch[2] == nil and minutes[2] == nil then
-
-        file.open("web.html", "r")
-        for counter = 1, 53 do
-            conn:send(file.readline() .. "\n");
-        end
-        file.close()
-    end
-
-    conn:on("sent", function(c)
-        c:close()
-        collectgarbage()
-    end)
+    conn:on("sent", send)
+    send(conn)
 end
 
 return Web

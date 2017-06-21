@@ -16,14 +16,15 @@ end
 function Clock.signalFail()
     print("[INFO] Marking signalFail")
     Clock.createBuffer()
-    buffer:set(116, 0, 255, 0)
+    buffer:set(116, tonumber(Settings.get("green", 240)), tonumber(Settings.get("red", 168)), tonumber(Settings.get("blue", 229)))
     ws2812.write(buffer)
+    buffer = nil
 end
 
 function displayWord(word)
     local word = require("Definitions").Words[word]
     for _, value in pairs(word) do
-        buffer:set(value, (240 / 100) * Ldr.percentage, (168 / 100) * Ldr.percentage, (229 / 100) * Ldr.percentage)
+        buffer:set(value, (tonumber(Settings.get("green", 240)) / 100) * Ldr.percentage, (tonumber(Settings.get("red", 168)) / 100) * Ldr.percentage, (tonumber(Settings.get("blue", 229)) / 100) * Ldr.percentage)
     end
 end
 
@@ -41,13 +42,14 @@ function printTime(minute, hour)
     end
 
     for _, value in pairs(require("Definitions").Minutes["m" .. minute]) do
-        if value ~= "minuten" or Settings.get("minutes") then
+        if value ~= "minuten" or Settings.get("minutes", "0") == "1" then
             displayWord(value)
         end
     end
 
     require("Definitions").safeToUnload = true
     ws2812.write(buffer)
+    buffer = nil
 end
 
 function Clock.repaint()

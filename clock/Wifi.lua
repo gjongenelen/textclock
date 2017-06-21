@@ -1,9 +1,6 @@
 local Wifi = {
-    safeToUnload = false,
     serving = false
 }
-
-local Web = require "Web"
 
 local mode = wifi.SOFTAP
 local apConfig = {
@@ -40,10 +37,8 @@ function startWebserverOnDemand()
                 Wifi.serving = false
                 require("Web").safeToUnload = true
 
-                tmr.alarm(2, 1000, 0, function()
-                    Clock.repaint(function()
-                        print("[INFO] Updated settings")
-                    end)
+                tmr.alarm(2, 2000, 0, function()
+                    Clock.repaint()
                 end)
             end
         end

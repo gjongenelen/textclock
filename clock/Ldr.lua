@@ -22,6 +22,7 @@ function Ldr.startPolling()
                 print("[INFO] Repainting with new level (".. Ldr.percentage .."%)")
                 Clock.repaint()
             end
+
         end
     end)
 end

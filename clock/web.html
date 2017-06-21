@@ -18,9 +18,53 @@
     <div style="float: right; width: 50px; margin-top: 50px;text-align:right;">
         <input id="minuten" type="checkbox" name="minutes" value="Jah" onchange="postMinutes()">
     </div>
+    <style>input[type=range] {
+        -webkit-appearance: none;
+    }
+
+    input[type=range]::-webkit-slider-runnable-track {
+        width: 300px;
+        height: 5px;
+        background: #ddd;
+        border: none;
+        border-radius: 3px;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        border: none;
+        height: 16px;
+        width: 16px;
+        border-radius: 50%;
+        margin-top: -4px;
+    }
+    #red::-webkit-slider-thumb {
+        background: red;
+    }
+    #green::-webkit-slider-thumb {
+        background: green;
+    }
+    #blue::-webkit-slider-thumb {
+        background: blue;
+    }
+    input[type=range]:focus {
+        outline: none;
+    }
+    </style>
+    <div style="float: left; width: 300px; margin-top: 50px;">
+        <input style="float: left; width: 90px;margin-right: 10px;" type="range" id="red" min="1" max="254" value="229" onchange="updateColor('red')">
+        <input style="float: left; width: 90px;margin-right: 10px;" type="range" id="green" min="1" max="254" value="240" onchange="updateColor('green')">
+        <input style="float: left; width: 90px;" type="range" id="blue" min="1" max="254" value="168" onchange="updateColor('blue')">
+    </div>
 </div>
 <script>
+    function updateColor(color) {
+        sendSetting(color+"=" + document.getElementById(color).value)
+    }
     function postMinutes() {
+        sendSetting("minutes=" + (document.getElementById("minuten").checked ? "1" : "0"))
+    }
+    function sendSetting(setting) {
         document.getElementById("status").innerHTML = "Updating settings...";
         var http = new XMLHttpRequest();
         http.open("POST", "", true);
@@ -30,14 +74,13 @@
                 document.getElementById("status").innerHTML = "Settings updated!";
             }
         };
-        http.send("minutes=" + (document.getElementById("minuten").checked ? "1" : "0"));
+        http.send(setting);
     }
     setInterval(function () {
         date = new Date();
         string = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
         document.getElementById("date1").innerHTML = string;
     }, 500);
-
     var date = new Date();
     epoch = Math.round(date.getTime() / 1000) + (date.getTimezoneOffset() - (date.getTimezoneOffset() * 2)) * 60;
     var http = new XMLHttpRequest();
@@ -49,7 +92,4 @@
         }
     };
     http.send("epoch=" + epoch);
-
-</script>
-</body>
-</html>
+</script></body></html>
