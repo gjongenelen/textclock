@@ -8,7 +8,6 @@ PORT=/dev/cu.SLAB_USBtoUART
 SPEED=115200
 
 NODEMCU-COMMAND-U=$(NODEMCU-UPLOADER) -b $(SPEED) --start_baud $(SPEED) -p $(PORT) upload
-NODEMCU-COMMAND-R=$(NODEMCU-UPLOADER) -b $(SPEED) --start_baud $(SPEED) -p $(PORT) node restart
 
 LUA_FILES := \
    init.lua \
@@ -32,12 +31,5 @@ usage:
 upload_all: $(LUA_FILES)
 	@python $(NODEMCU-COMMAND-U) $(foreach f, $^, $(f))
 
-# Restart
-restart:
-	@python $(NODEMCU-COMMAND-R)
-
-# Log
-restart:
-	@python $(NODEMCU-COMMAND-R)
 
 
