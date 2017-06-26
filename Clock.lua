@@ -42,7 +42,7 @@ function printTime(minute, hour)
     end
 
     for _, value in pairs(require("Definitions").Minutes["m" .. minute]) do
-        if value ~= "minuten" or Settings.get("minutes", "0") == "1" then
+        if value ~= "minuten" or Settings.get("minutes", "1") == "1" then
             displayWord(value)
         end
     end
