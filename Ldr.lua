@@ -8,7 +8,7 @@ local maxLevel = 100
 
 function Ldr.startPolling()
     tmr.alarm(1, 100, 1, function()
-        if not Wifi.serving then
+--        if not Wifi.serving then
             local value = adc.read(0)
             if math.abs(level - value) > 30 then
                 level = value
@@ -20,10 +20,15 @@ function Ldr.startPolling()
                 end
 
                 print("[INFO] Repainting with new level (".. Ldr.percentage .."%)")
-                Clock.repaint()
+                if not Wifi.serving then
+                    Clock.repaint()
+                else
+                    Clock.signalFail()
+                end
+
             end
 
-        end
+--        end
     end)
 end
 

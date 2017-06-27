@@ -16,7 +16,7 @@ end
 function Clock.signalFail()
     print("[INFO] Marking signalFail")
     Clock.createBuffer()
-    buffer:set(116, tonumber(Settings.get("green", 240)), tonumber(Settings.get("red", 168)), tonumber(Settings.get("blue", 229)))
+    buffer:set(116, (tonumber(Settings.get("green", 240)) / 100) * Ldr.percentage, (tonumber(Settings.get("red", 168)) / 100) * Ldr.percentage, (tonumber(Settings.get("blue", 229)) / 100) * Ldr.percentage)
     ws2812.write(buffer)
     buffer = nil
 end

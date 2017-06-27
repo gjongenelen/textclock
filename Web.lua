@@ -89,7 +89,7 @@ function handleConnection(conn, payload)
     response = {}
 
     file.open("web.html", "r")
-    for counter = 1, 95 do
+    for counter = 1, 96 do
         response[#response + 1] = file.readline()
     end
     file.close()
